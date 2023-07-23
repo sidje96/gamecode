@@ -1,5 +1,15 @@
 import random
 
+# In general, if you want to use global variables, it's best to define them somewhere at the top of your file.
+# If the origin of a global variable is in a function, stuff tends to get messy.
+# And since the variables are declared on a high level, they are still in scope when using them in a function, so no need for the global keyword here.
+# Also it is common practice to write global vars in all caps. Using global variables to also write to is generally not great, as it can get messy in larger codebases, but that's a topic for another moment.
+CURRENT_PLAYER = ""
+CPU_NUM = 0
+CURRENT_SCORE = 0
+CURRENT_PLAYER = "Player 1"
+CPU_OPTIONS = [1, random.randint(1, 10), 10, 9, 8, 7, 6, 5, 4, 3, 2]
+
 print("""
 The 100-game is played as follows:
 You pick a number from 1-10. It can't be less than 1
@@ -8,12 +18,6 @@ You and a CPU or second player take turns.
 The number you or the opponent picks, gets
 added to the total score.
 Whoever gets to 100 first wins the game.""")
-
-global current_score
-global current_player
-global cpu_num
-current_score = 0
-current_player = "Player 1"
 
 
 player_amount = input(
@@ -26,152 +30,163 @@ Type:
 2 for 2 players
 3 for 3 players
 4 for perfect playing CPU\n""")
-cpu_pick = [1, random.randint(1, 10), 10, 9, 8, 7, 6, 5, 4, 3, 2]
+
 
 def cpu():
-    global current_score
+    global CURRENT_SCORE
     if player_amount == "0":
         cpu_num = random.randint(1, 10)
         return cpu_num
     elif player_amount == "1":
-        if current_score % 11 == 1:
-            cpu_num = cpu_pick[random.randint(1, 10)]
+        if CURRENT_SCORE % 11 == 1:
+            cpu_num = CPU_OPTIONS[random.randint(1, 10)]
             return cpu_num
-        elif current_score == 0:
-            cpu_num = cpu_pick[1]
+        elif CURRENT_SCORE == 0:
+            cpu_num = CPU_OPTIONS[1]
             return cpu_num
         else:
-            cpu_num = cpu_pick[current_score % 11]
+            cpu_num = CPU_OPTIONS[CURRENT_SCORE % 11]
             return cpu_num
     else:
-        cpu_num = cpu_pick[current_score % 11]
+        cpu_num = CPU_OPTIONS[CURRENT_SCORE % 11]
         return cpu_num
 
+
 def player():
-    global current_player
-    global current_score
+    global CURRENT_PLAYER
+
     player_input = 0
-    
+    global CURRENT_SCORE
+
     while player_input < 1 or player_input > 10:
         if player_amount == "2":
-            if current_player == "Player 1":
-                print("\nIt is", current_player, "'s turn")
+            if CURRENT_PLAYER == "Player 1":
+                print("\nIt is", CURRENT_PLAYER, "'s turn")
                 player_input = input("Pick a number from 1-10 ")
                 if player_input.isdigit():
                     player_input = int(player_input)
                     if 0 < player_input <= 10:
-                        current_score += player_input
+                        CURRENT_SCORE += player_input
                     else:
                         return
-                    print(f"You picked: {player_input} current score = {current_score}")
-                    if current_score >= 100:
+                    print(
+                        f"You picked: {player_input} current score = {CURRENT_SCORE}")
+                    if CURRENT_SCORE >= 100:
                         return
                     else:
-                        current_player = "Player 2"
+                        CURRENT_PLAYER = "Player 2"
                         continue
             else:
-                print("\nIt is", current_player, "'s turn")
+                print("\nIt is", CURRENT_PLAYER, "'s turn")
                 player_input = input("Pick a number from 1-10 ")
                 if player_input.isdigit():
                     player_input = int(player_input)
                     if 0 < player_input <= 10:
-                        current_score += player_input
+                        CURRENT_SCORE += player_input
                     else:
                         return
-                    print(f"You picked: {player_input} current score = {current_score}")
-                    if current_score >= 100:
+                    print(
+                        f"You picked: {player_input} current score = {CURRENT_SCORE}")
+                    if CURRENT_SCORE >= 100:
                         return
                     else:
-                        current_player = "Player 1"
+                        CURRENT_PLAYER = "Player 1"
                         continue
 
         elif player_amount == "3":
-            if current_player == "Player 1":
-                print("\nIt is", current_player, "'s turn")
+            if CURRENT_PLAYER == "Player 1":
+                print("\nIt is", CURRENT_PLAYER, "'s turn")
                 player_input = input("Pick a number from 1-10 ")
                 if player_input.isdigit():
                     player_input = int(player_input)
                     if 0 < player_input <= 10:
-                        current_score += player_input
+                        CURRENT_SCORE += player_input
                     else:
                         continue
-                    print(f"You picked: {player_input} current score = {current_score}")
-                    if current_score >= 100:
+                    print(
+                        f"You picked: {player_input} current score = {CURRENT_SCORE}")
+                    if CURRENT_SCORE >= 100:
                         return
                     else:
-                        current_player = "Player 2"
+                        CURRENT_PLAYER = "Player 2"
                         continue
-                    
-            elif current_player == "Player 2":
-                print("\nIt is", current_player, "'s turn")
+
+            elif CURRENT_PLAYER == "Player 2":
+                print("\nIt is", CURRENT_PLAYER, "'s turn")
                 player_input = input("Pick a number from 1-10 ")
                 if player_input.isdigit():
                     player_input = int(player_input)
                     if 0 < player_input <= 10:
-                        current_score += player_input
+                        CURRENT_SCORE += player_input
                     else:
                         continue
-                    print(f"You picked: {player_input} current score = {current_score}")
-                    if current_score >= 100:
+                    print(
+                        f"You picked: {player_input} current score = {CURRENT_SCORE}")
+                    if CURRENT_SCORE >= 100:
                         return
                     else:
-                        current_player = "Player 3"
+                        CURRENT_PLAYER = "Player 3"
                         continue
-                    
+
             else:
-                print("\nIt is", current_player, "'s turn")
+                print("\nIt is", CURRENT_PLAYER, "'s turn")
                 player_input = input("Pick a number from 1-10 ")
                 if player_input.isdigit():
                     player_input = int(player_input)
                     if 0 < player_input <= 10:
-                        current_score += player_input
+                        CURRENT_SCORE += player_input
                     else:
                         continue
-                    print(f"You picked: {player_input} current score = {current_score}")
-                    if current_score >= 100:
+                    print(
+                        f"You picked: {player_input} current score = {CURRENT_SCORE}")
+                    if CURRENT_SCORE >= 100:
                         return
                     else:
-                        current_player = "Player 1"
+                        CURRENT_PLAYER = "Player 1"
                         continue
         else:
-            print("\nIt is", current_player, "'s turn")
+            print("\nIt is", CURRENT_PLAYER, "'s turn")
             player_input = input("Pick a number from 1-10 ")
             if player_input.isdigit():
                 player_input = int(player_input)
                 if 0 < player_input <= 10:
-                    current_score += player_input
+                    CURRENT_SCORE += player_input
                 else:
                     continue
-                print(f"You picked: {player_input} current score = {current_score}")
-                return gamestate()
+                print(
+                    f"You picked: {player_input} current score = {CURRENT_SCORE}")
+                return check_win()
 
-p_a_check = ["0", "1"]
 
-def gamestate():
-    global current_score
-    if current_score >= 100:
+def check_win():
+    global CURRENT_SCORE
+    if CURRENT_SCORE >= 100:
         return True
     else:
         return False
 
+
 def gamecpu():
-    global current_player
-    global current_score
-    current_player = "Player 1"
-    while current_score < 100:
+    global CURRENT_SCORE
+    global CURRENT_PLAYER
+    CURRENT_PLAYER = "Player 1"
+    while CURRENT_SCORE < 100:
         cpu_num = cpu()
-        current_score += cpu_num
-        print(f"\nThe CPU picked: {cpu_num} The current score = {current_score}")
-        if gamestate():
-            current_player = "CPU"
+        CURRENT_SCORE += cpu_num
+        print(
+            f"\nThe CPU picked: {cpu_num} The current score = {CURRENT_SCORE}")
+        if check_win():
+            CURRENT_PLAYER = "CPU"
         else:
             player()
 
-    if current_player == "Player 1":
-        print(f"{current_player} won the game.")
+    if CURRENT_PLAYER == "Player 1":
+        print(f"{CURRENT_PLAYER} won the game.")
     else:
         print(f"CPU won the game.")
-    
+
+
+p_a_check = ["0", "1"]
 
 if player_amount in p_a_check:
     start = input("Do you want to start? ").lower()
@@ -181,7 +196,6 @@ if player_amount in p_a_check:
 elif player_amount == "4":
     gamecpu()
 else:
-    while not gamestate():
+    while not check_win():
         player()
-    print(f"{current_player} won the game")
-    
+    print(f"{CURRENT_PLAYER} won the game")
