@@ -39,6 +39,8 @@ def player():
 
     while player_input < 1 or player_input > 10:
         if PLAYER_AMOUNT == "2":
+             # The block of code below is repeated quite often. See if you can move that into a function so you're not repeating writing the same code over and over.
+             # Hint: look into function return values
             if CURRENT_PLAYER == "Player 1":
                 print("\nIt is", CURRENT_PLAYER, "'s turn")
                 player_input = input("Pick a number from 1-10 ")
